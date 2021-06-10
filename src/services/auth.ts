@@ -9,6 +9,7 @@ export async function generateJwtAndRefreshToken(email: string, payload: object 
     subject: email,
     expiresIn: 60 * 60 * 24, // 24hours
   });
+  
 
   const refreshToken = await createRefreshToken(email, payload)
   

@@ -15,7 +15,7 @@ export function setupApiClient(ctx = undefined){
   const api = axios.create({
     baseURL: '/api',
     headers: {
-      Authorization: `Bearer ${cookies['project-dash.token']}`
+      Authorization: `Bearer ${cookies['amz-finance.token']}`
     }
   });
   
@@ -26,7 +26,7 @@ export function setupApiClient(ctx = undefined){
       if(error.response?.data.code === 'token.expired'){
         cookies = parseCookies(ctx);
   
-        const { 'project-dash.refreshToken': refreshToken } = cookies;
+        const { 'amz-finance.refreshToken': refreshToken } = cookies;
         const originalConfig = error.config
         
         if(!isRefreshing){
@@ -38,11 +38,11 @@ export function setupApiClient(ctx = undefined){
             const { token } = response.data
 
               
-            setCookie(ctx, 'project-dash.token', token, {
+            setCookie(ctx, 'amz-finance.token', token, {
               maxAge: 60 * 60 * 24 * 30, //30 days
               path:'/'
             })
-            setCookie(ctx, 'project-dash.refreshToken', response.data.refreshToken, {
+            setCookie(ctx, 'amz-finance.refreshToken', response.data.refreshToken, {
               maxAge: 60 * 60 * 24 * 30, //30 days
               path:'/'
             })

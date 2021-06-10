@@ -9,9 +9,9 @@ export function withSSRAuth<P>(fn:GetServerSideProps<P>) {
   return async (ctx: GetServerSidePropsContext):Promise<GetServerSidePropsResult<P>> => {
     const cookies = parseCookies(ctx);
 
-    const token = cookies['project-dash.token']
+    const token = cookies['amz-finance.token']
 
-    if(!cookies['project-dash.token']){
+    if(!cookies['amz-finance.token']){
 
       return {
         redirect: {
@@ -25,8 +25,8 @@ export function withSSRAuth<P>(fn:GetServerSideProps<P>) {
     try {
       const decoded = jwt.verify(token as string, process.env.AUTH_SECRET) as DecodedToken;
     } catch (error) {
-        destroyCookie(ctx, 'project-dash.token')
-        destroyCookie(ctx, 'project-dash.refreshToken')
+        destroyCookie(ctx, 'amz-finance.token')
+        destroyCookie(ctx, 'amz-finance.refreshToken')
     
         return {
             redirect: {
@@ -44,8 +44,8 @@ export function withSSRAuth<P>(fn:GetServerSideProps<P>) {
     } catch (err) {
 
       if(err instanceof AuthTokenError) {
-        destroyCookie(ctx, 'project-dash.token')
-        destroyCookie(ctx, 'project-dash.refreshToken')
+        destroyCookie(ctx, 'amz-finance.token')
+        destroyCookie(ctx, 'amz-finance.refreshToken')
     
         return {
             redirect: {

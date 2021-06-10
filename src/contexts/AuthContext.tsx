@@ -30,8 +30,8 @@ type AuthProviderprops = {
 export const AuthContext = createContext({} as AuthContextData)
 
 export function signOut() {
-  destroyCookie(undefined, 'project-dash.token')
-  destroyCookie(undefined, 'project-dash.refreshToken')
+  destroyCookie(undefined, 'amz-finance.token')
+  destroyCookie(undefined, 'amz-finance.refreshToken')
 
   Router.push('/')
 }
@@ -41,7 +41,7 @@ export function AuthProvider({ children }: AuthProviderprops) {
   const isAuthenticated= !!user;
 
   useEffect(()=>{
-    const { 'project-dash.token': token} = parseCookies()
+    const { 'amz-finance.token': token} = parseCookies()
 
     if(token) {
       api.get('/me').then(response => {
@@ -69,11 +69,11 @@ export function AuthProvider({ children }: AuthProviderprops) {
 
       const { token, refreshToken, role, name, image_url, id } = response.data;
 
-      setCookie(undefined, 'project-dash.token', token, {
+      setCookie(undefined, 'amz-finance.token', token, {
         maxAge: 60 * 60 * 24 * 60, //1 day
         path:'/'
       })
-      setCookie(undefined, 'project-dash.refreshToken', refreshToken, {
+      setCookie(undefined, 'amz-finance.refreshToken', refreshToken, {
         maxAge: 60 * 60 * 24 * 60, //1 days
         path:'/'
       })

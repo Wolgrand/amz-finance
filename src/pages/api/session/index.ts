@@ -30,6 +30,7 @@ type UserResponse = {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if(req.method === 'POST'){
     const { email, password } = req.body as CreateSessionDTO;
+    
 
     if (
       !email ||
@@ -60,8 +61,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       )
     )
 
+    const passwordMatched = await compareHash(password, user.data.data.password);
     
-    const passwordMatched = compareHash(password, user.data.data.password);
 
     if (!passwordMatched) {
       return res
@@ -71,10 +72,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           message: 'E-mail or password incorrect.'
         });
     }
-
-
-
-
+    
 
     const { token, refreshToken } = await generateJwtAndRefreshToken(email, {
       role: user.data.data.role,
@@ -82,6 +80,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       id: user.data.ref.id,
       image_url: user.data.data.image_url,
     })
+
+   
 
     
 
